@@ -3,13 +3,15 @@ import requests
 import tempfile
 import os
 import logging
-from ensta import Mobile, Web, WebSession
+from ensta import Web
 from odoo.tools.json import scriptsafe as json_scriptsafe
 from odoo.exceptions import ValidationError, UserError
+
 # from odoo.addons.blog_instagram.ensta.CustomWeb import CustomWeb
 
 
-INSTAGRAM_URL  = "https://www.instagram.com/p"
+INSTAGRAM_URL = "https://www.instagram.com/p"
+
 
 def _download_image_to_temp_file(url):
     try:
