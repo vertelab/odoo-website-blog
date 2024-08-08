@@ -38,6 +38,9 @@
         'data/data.xml',
         'views/blog_post_view.xml',
     ],
+    'external_dependencies': {
+        'python': ['ensta']
+    },
     'auto_install': False,
 }
 # vim:expandtab:smartindent:tabstop=4s:softtabstop=4:shiftwidth=4:
