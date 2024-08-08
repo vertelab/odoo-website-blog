@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+        <record id="blog_post_tree_view" model="ir.ui.view">
+            <field name="name">blog.post.tree</field>
+            <field name="model">blog.post</field>
+            <field name="inherit_id" ref="website_blog.view_blog_post_list"/>
+            <field name="arch" type="xml">
+                <field name="website_id" position="after">
+                    <field name="ig_post_id"/>
+                    <button name="action_open_form" string="View Form" type="object" class="btn-secondary"/>
+                    <button name="action_post_on_instagram" string="Post on IG" type="object" class="btn-secondary" attrs="{'invisible': [('ig_post_id', '!=', False)]}"/>
+                    <button name="action_view_post_on_instagram" string="View Post on IG" type="object" class="btn-primary" attrs="{'invisible': [('ig_post_id', '=', False)]}"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="blog_post_form_view" model="ir.ui.view">
+            <field name="name">blog.post.form</field>
+            <field name="model">blog.post</field>
+            <field name="inherit_id" ref="website_blog.view_blog_post_form"/>
+            <field name="arch" type="xml">
+                <field name="website_id" position="after">
+                    <field name="ig_post_id" force_save="1" readonly="1"/>
+                </field>
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="action_post_on_instagram" string="Post on IG" type="object" class="btn-primary" attrs="{'invisible': [('ig_post_id', '!=', False)]}"/>
+                        <button name="action_view_post_on_instagram" string="View Post on IG" type="object" class="btn-primary" attrs="{'invisible': [('ig_post_id', '=', False)]}"/>
+                        <button name="fetch_posts" string="Fetch Posts" type="object" class="btn-primary"/>
+                    </header>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

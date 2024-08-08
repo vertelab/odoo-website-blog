@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ig_username" model="ir.config_parameter">
+            <field name="key">ig.username</field>
+            <field name="value"/>
+        </record>
+
+        <record id="ig_password" model="ir.config_parameter">
+            <field name="key">ig.password</field>
+            <field name="value"/>
+        </record>
+    </data>
+</odoo>
