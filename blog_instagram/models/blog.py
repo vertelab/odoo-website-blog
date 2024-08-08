@@ -58,8 +58,8 @@ class BlogPost(models.Model):
         }
 
     def _authenticate_params(self):
-        user_name = self.env['ir.config_parameter'].sudo().get_param('ig.username').strip()
-        password = self.env['ir.config_parameter'].sudo().get_param('ig.password').strip()
+        user_name = self.env['ir.config_parameter'].sudo().get_param('ig.username', '').strip()
+        password = self.env['ir.config_parameter'].sudo().get_param('ig.password', '').strip()
         if not user_name or not password:
             raise UserError(_("Instagram Username or Password is not set. Check System Parameters"))
         return user_name, password
