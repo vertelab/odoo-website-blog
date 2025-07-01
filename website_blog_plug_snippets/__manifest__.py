@@ -21,7 +21,7 @@
 
 {
     'name': 'Website Blog: App Snippets',
-    'version': '14.0.0.0.0',
+    'version': '18.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Website Blog App',
     'category': 'Website',
@@ -35,12 +35,21 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-website-blog',
-    'depends': ['website_blog'],
+    'depends': ['website_blog', 'web_editor'],
     'data': [
         'views/website_blog_view.xml',
         'views/snippets/snippets.xml',
         'views/snippets/snip_plug_posts.xml',
     ],
+    'assets': {
+        'web.assets_frontend': [
+            'website_blog_plug_snippets/static/src/snippets/snip_plug_posts/plug_posts.scss',
+            'website_blog_plug_snippets/static/src/snippets/snip_plug_posts/plug_posts_001.scss',
+        ],
+        'website_blog_plug_snippets.assets_wysiwyg': [
+            'website_blog_plug_snippets/static/src/snippets/snip_plug_posts/plug_posts.js'
+        ]
+    },
     'installable': True,
     'application': True,
 }

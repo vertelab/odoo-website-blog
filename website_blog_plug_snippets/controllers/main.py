@@ -8,7 +8,6 @@ import babel.dates
 from collections import OrderedDict
 
 from odoo import http, fields
-from odoo.addons.http_routing.models.ir_http import slug, unslug
 from odoo.addons.website.controllers.main import QueryURL
 from odoo.addons.portal.controllers.portal import _build_url_w_params
 from odoo.addons.website_blog.controllers.main import WebsiteBlog

@@ -8,7 +8,7 @@ import babel.dates
 from collections import OrderedDict
 
 from odoo import http, fields
-from odoo.addons.http_routing.models.ir_http import slug, unslug
+# from odoo.addons.http_routing.models.ir_http import slug, unslug
 from odoo.addons.website.controllers.main import QueryURL
 from odoo.addons.portal.controllers.portal import _build_url_w_params
 from odoo.addons.website_blog.controllers.main import WebsiteBlog
@@ -20,6 +20,9 @@ from odoo.tools import sql
 import logging
 
 _logger = logging.getLogger(__name__)
+
+# _unslug = request.env['ir.http']._unslug
+# slug = request.env['ir.http']._slug
 
 class AppWebsiteBlog(WebsiteBlog):
 
@@ -132,6 +135,8 @@ class AppWebsiteBlog(WebsiteBlog):
         BlogPost = request.env['blog.post']
         date_begin, date_end = post.get('date_begin'), post.get('date_end')
 
+        slug = request.env['ir.http']._slug
+
         domain = request.website.website_domain()
         blogs = blog.search(domain, order="create_date, id asc")
 
@@ -182,7 +187,7 @@ class AppWebsiteBlog(WebsiteBlog):
             response = request.render("website_blog.blog_post_complete", values)
 
         if blog_post.id not in request.session.get('posts_viewed', []):
-            if sql.increment_field_skiplock(blog_post, 'visits'):
+            if sql.increment_fields_skiplock(blog_post, 'visits'):
                 if not request.session.get('posts_viewed'):
                     request.session['posts_viewed'] = []
                 request.session['posts_viewed'].append(blog_post.id)
@@ -201,8 +206,9 @@ class AppWebsiteBlog(WebsiteBlog):
             domain += [('blog_id', '=', blog.id), ('is_app', '=', is_app)]
         if is_app:
             order = "is_published desc, sequence asc, post_date desc, id asc"
-            
-            
+
+        unslug = request.env['ir.http']._unslug
+        slug = request.env['ir.http']._slug
 
         if date_begin and date_end:
             domain += [("post_date", ">=", date_begin), ("post_date", "<=", date_end)]
@@ -236,13 +242,18 @@ class AppWebsiteBlog(WebsiteBlog):
         offset = (page - 1) * self._blog_post_per_page
         first_post = BlogPost
         if not blog:
-            first_post = BlogPost.search(domain + [('website_published', '=', True), ('is_app', '=', is_app)], order=order, limit=1)
+            first_post = BlogPost.search(
+                domain + [('website_published', '=', True), ('is_app', '=', is_app)], order=order, limit=1
+            )
             if use_cover and not fullwidth_cover:
                 offset += 1
 
         if search:
             tags_like_search = BlogTag.search([('name', 'ilike', search)])
-            domain += ['|', '|', '|', ('author_name', 'ilike', search), ('name', 'ilike', search), ('content', 'ilike', search), ('tag_ids', 'in', tags_like_search.ids)]
+            domain += [
+                '|', '|', '|', ('author_name', 'ilike', search), ('name', 'ilike', search),
+                ('content', 'ilike', search), ('tag_ids', 'in', tags_like_search.ids)
+            ]
         domain += [('is_app', '=', is_app)]
         if blog and blog.id != 1:
             domain += [('blog_id','=',blog.id)]
@@ -308,6 +319,8 @@ class AppWebsiteBlog(WebsiteBlog):
         domain += [('is_app', '=', False)]
         blogs = Blog.search(domain, order="create_date asc, id asc")
 
+        slug = request.env['ir.http']._slug
+
         if not blog and len(blogs) == 1:
             return werkzeug.utils.redirect('/blog/%s' % slug(blogs[0]), code=302)
 
@@ -317,12 +330,17 @@ class AppWebsiteBlog(WebsiteBlog):
             # redirect get tag-1,tag-2 -> get tag-1
             tags = tag.split(',')
             if len(tags) > 1:
-                url = QueryURL('' if blog else '/blog', ['blog', 'tag'], blog=blog, tag=tags[0], date_begin=date_begin,
-                               date_end=date_end, search=search)()
+                url = QueryURL(
+                    '' if blog else '/blog', ['blog', 'tag'],
+                    blog=blog, tag=tags[0], date_begin=date_begin,
+                    date_end=date_end, search=search
+                )()
                 return request.redirect(url, code=302)
 
-        values = self._prepare_blog_values(blogs=blogs, blog=blog, date_begin=date_begin, date_end=date_end, tags=tag,
-                                           state=state, page=page, search=search, is_app=False)
+        values = self._prepare_blog_values(
+            blogs=blogs, blog=blog, date_begin=date_begin,
+            date_end=date_end, tags=tag, state=state, page=page, search=search, is_app=False
+        )
 
         # in case of a redirection need by `_prepare_blog_values` we follow it
         if isinstance(values, werkzeug.wrappers.Response):
@@ -331,10 +349,14 @@ class AppWebsiteBlog(WebsiteBlog):
         if blog:
             values['main_object'] = blog
             values['edit_in_backend'] = True
-            values['blog_url'] = QueryURL('', ['blog', 'tag'], blog=blog, tag=tag, date_begin=date_begin,
-                                          date_end=date_end, search=search)
+            values['blog_url'] = QueryURL(
+                '', ['blog', 'tag'], blog=blog, tag=tag,
+                date_begin=date_begin, date_end=date_end, search=search
+            )
         else:
-            values['blog_url'] = QueryURL('/blog', ['tag'], date_begin=date_begin, date_end=date_end, search=search)
+            values['blog_url'] = QueryURL(
+                '/blog', ['tag'], date_begin=date_begin, date_end=date_end, search=search
+            )
         return request.render("website_blog.blog_post_short", values)
         
     @http.route([
@@ -374,12 +396,17 @@ class AppWebsiteBlog(WebsiteBlog):
             # redirect get tag-1,tag-2 -> get tag-1
             tags = tag.split(',')
             if len(tags) > 1:
-                url = QueryURL('' if blog else '/apps', ['blog', 'tag'], blog=blog, tag=tags[0], date_begin=date_begin,
-                               date_end=date_end, search=search)()
+                url = QueryURL(
+                    '' if blog else '/apps', ['blog', 'tag'],
+                    blog=blog, tag=tags[0], date_begin=date_begin,
+                    date_end=date_end, search=search
+                )()
                 return request.redirect(url, code=302)
 
-        values = self._prepare_blog_values(blogs=blogs, blog=blog, date_begin=date_begin, date_end=date_end, tags=tag,
-                                           state=state, page=page, search=search, is_app=True)
+        values = self._prepare_blog_values(
+            blogs=blogs, blog=blog, date_begin=date_begin, date_end=date_end, tags=tag,
+            state=state, page=page, search=search, is_app=True
+        )
 
         # in case of a redirection need by `_prepare_blog_values` we follow it
         if isinstance(values, werkzeug.wrappers.Response):
@@ -388,8 +415,12 @@ class AppWebsiteBlog(WebsiteBlog):
         if blog:
             values['main_object'] = blog
             values['edit_in_backend'] = True
-            values['blog_url'] = QueryURL('', ['blog', 'tag'], blog=blog, tag=tag, date_begin=date_begin,
-                                          date_end=date_end, search=search)
+            values['blog_url'] = QueryURL(
+                '', ['blog', 'tag'], blog=blog,
+                tag=tag, date_begin=date_begin, date_end=date_end, search=search
+            )
         else:
-            values['blog_url'] = QueryURL('/apps', ['tag'], date_begin=date_begin, date_end=date_end, search=search)
+            values['blog_url'] = QueryURL(
+                '/apps', ['tag'], date_begin=date_begin, date_end=date_end, search=search
+            )
         return request.render("website_blog_app.blog_app_post", values)

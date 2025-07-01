@@ -1,3 +1,10 @@
+// Define the missing mixin
+@mixin size($size) {
+    width: $size;
+    height: $size;
+}
+
+// Main style block
 .snip_plug_posts[data-vcss='001'] {
     .snip_blog_post_loader {
         @include o-position-absolute(0, 0, 0, 0);
@@ -5,13 +12,13 @@
 
         > div {
             animation: o-wblog-loader 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-            max: {width: 30px; height: 30px;}
+            max-width: 30px;
+            max-height: 30px;
         }
     }
 
-    .snip_blog_post_title  {
+    .snip_blog_post_title {
         font-weight: $headings-font-weight;
-        // Tweek line-height to help fit multi-line titles.
         line-height: 1;
     }
 
@@ -19,11 +26,10 @@
         font-size: 1em;
     }
 
-    // The two following rules prevent having an empty spot on medium breakpoint
-    // for non-list layouts (lg:3x1, md:2x2, sm: 1x3) list is always 1x3.
     .snip_blog_post:nth-child(4) {
         display: none !important;
     }
+
     @include media-breakpoint-only(md) {
         :not(.snip_blog_post_list) > .snip_blog_post:nth-child(4) {
             display: block !important;
@@ -31,14 +37,13 @@
     }
 
     .snip_blog_post_list {
-        // Set sizes relative to the container font-size.
-        // (handle parents with, for example, '.small' or '.h1' classes)
         .snip_blog_post_cover {
             @include size(3.5em);
-            max: {width: 85px; height: 85px}
+            max-width: 85px;
+            max-height: 85px;
         }
 
-        .snip_blog_post_title  {
+        .snip_blog_post_title {
             font-size: 1.25em;
         }
     }
@@ -60,8 +65,8 @@
                 }
             }
 
-            .snip_blog_post_title  {
-                @include font-size($h3-font-size);
+            .snip_blog_post_title {
+                font-size: $h3-font-size;
                 margin-bottom: 0.5em;
                 word-spacing: -0.15em;
             }
@@ -75,54 +80,69 @@
             &.snip_blog_post_effect_marley {
                 figcaption {
                     text-align: right;
+
                     .snip_blog_post_title, .snip_blog_post_subtitle {
                         padding: 10px 0;
                     }
+
                     .snip_blog_post_subtitle {
                         bottom: 30px;
                         line-height: 1.5;
-                        transform: translate3d(0,100%,0);
+                        transform: translate3d(0, 100%, 0);
                         opacity: 0;
                         transition: opacity 0.35s, transform 0.35s;
                     }
+
                     .snip_blog_post_title {
                         top: 30px;
                         transition: transform 0.35s;
-                        transform: translate3d(0,20px,0);
+                        transform: translate3d(0, 20px, 0);
+
                         &:after {
                             @include o-position-absolute(100%, auto, auto, 0);
                             width: 100%;
                             height: 2px;
                             background: #fff;
                             content: "";
-                            transform: translate3d(0,40px,0);
+                            transform: translate3d(0, 40px, 0);
                             opacity: 0;
                             transition: opacity 0.35s, transform 0.35s;
                         }
                     }
                 }
+
                 .snip_blog_post:hover figcaption {
                     .snip_blog_post_title {
-                        transform: translate3d(0,0,0);
+                        transform: translate3d(0, 0, 0);
                     }
-                    .snip_blog_post_title::after, .snip_blog_post_subtitle {
+
+                    .snip_blog_post_title::after,
+                    .snip_blog_post_subtitle {
                         opacity: 1;
-                        transform: translate3d(0,0,0);
+                        transform: translate3d(0, 0, 0);
                     }
                 }
             }
+
             &.snip_blog_post_effect_dexter .snip_blog_post {
                 &::before {
                     content: "";
+                    background: linear-gradient(
+                        to bottom,
+                        #5a6c7d 0%,
+                        #3d4a56 100%
+                    );
                     @include o-position-absolute(0, $grid-gutter-width/2, 0, $grid-gutter-width/2);
-                    background: linear-gradient(to bottom, darken(theme-color('secondary'), 10%) 0%, darken(theme-color('secondary'), 30%) 100%);
                 }
+
                 .o_record_cover_container {
                     transition: opacity 0.35s;
                 }
+
                 figcaption {
                     padding: 3em;
                     text-align: left;
+
                     &:after {
                         @include o-position-absolute(10px, 10px, 10px, 10px);
                         border: 2px solid #fff;
@@ -134,36 +154,43 @@
                         transform-origin: top;
                     }
                 }
+
                 .snip_blog_post_subtitle {
                     @include o-position-absolute(auto, 20px, 20px, 20px);
                     opacity: 0;
                     transition: opacity 0.35s linear, transform 0.35s;
-                    transform: translate3d(0,-100px,0);
+                    transform: translate3d(0, -100px, 0);
                 }
+
                 .snip_blog_post_title {
                     @include o-position-absolute(20px, 20px, auto, 20px);
                 }
+
                 &:hover {
                     .o_record_cover_container {
                         opacity: 0.4 !important;
                     }
+
                     figcaption::after {
                         transform-origin: bottom;
                     }
+
                     .snip_blog_post_subtitle {
                         opacity: 1;
                         transform: translate3d(0, 0, 0);
                     }
                 }
             }
+
             &.snip_blog_post_effect_chico {
                 .o_record_cover_image {
                     transition: opacity 0.35s, transform 0.35s;
                     transform: scale(1.12);
                 }
+
                 .snip_blog_post figcaption {
                     &::before {
-                        @include o-position-absolute(15px,15px,15px,15px);
+                        @include o-position-absolute(15px, 15px, 15px, 15px);
                         border: 1px solid #fff;
                         content: "";
                         transform: scale(1.1);
@@ -171,6 +198,7 @@
                         transition: opacity 0.35s, transform 0.35s;
                     }
                 }
+
                 .snip_blog_post_subtitle {
                     opacity: 0;
                     transition: opacity 0.35s, transform 0.35s;
@@ -179,14 +207,18 @@
                     max-width: 200px;
                     transform: scale(1.5);
                 }
+
                 .snip_blog_post_title {
                     padding: 0;
                 }
+
                 .snip_blog_post:hover {
                     .o_record_cover_image {
                         transform: scale(1);
                     }
-                    figcaption::before, .snip_blog_post_subtitle {
+
+                    figcaption::before,
+                    .snip_blog_post_subtitle {
                         opacity: 1;
                         transform: scale(1);
                     }
@@ -206,8 +238,10 @@
             position: relative;
             overflow: visible;
             text-align: left;
+
             .snip_blog_post {
                 position: relative;
+
                 figcaption:after {
                     position: relative;
                     width: 100%;
@@ -215,10 +249,12 @@
                     content: "";
                     display: block;
                 }
+
                 h4 {
                     position: relative;
                     text-align: left;
                     padding-right: 5%;
+
                     &:before {
                         content: "";
                         z-index: 0;
@@ -230,6 +266,7 @@
                         left: 0;
                         border-bottom: 1px solid $body-color;
                     }
+
                     a {
                         z-index: 1;
                         display: block;
@@ -238,9 +275,11 @@
                         position: relative;
                     }
                 }
+
                 h5 {
                     padding-left: 24%;
                 }
+
                 > a {
                     position: absolute;
                     bottom: 0;
@@ -250,6 +289,7 @@
                     width: 100%;
                     height: 150px;
                     overflow: hidden;
+
                     > div {
                         height: 100%;
                         width: 100%;
@@ -259,16 +299,19 @@
                         transform-origin: 50%;
                         transition: all 400ms;
                         backface-visibility: hidden;
+
                         &:hover {
                             opacity: 0.8;
                             transform: scale(1.1);
                         }
                     }
                 }
-                @media only screen and (max-width : 480px) { // FIXME
+
+                @media only screen and (max-width: 480px) {
                     width: 100%;
                 }
             }
+
             @include media-breakpoint-down(sm) {
                 display: block;
             }

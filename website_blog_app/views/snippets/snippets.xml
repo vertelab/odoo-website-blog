@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="website_blog_app_snippets" inherit_id="website.snippets" name="App Blog Snippets">
-        <xpath expr="//div[@id='snippet_structure']/div[hasclass('o_panel_body')]" position="inside">
-            <t t-snippet="website_blog_app.vertel_app_footer" t-thumbnail="/website_blog_app/static/img/Vertel_Vit.svg"/>
-        </xpath>
-    </template>
+
 
     <template id="vertel_app_footer" name="Vertel App Footer">
         <section class="v_app_footer parallax s_parallax_is_fixed">
@@ -36,5 +32,11 @@
                 </div>
             </div>
         </section>
+    </template>
+
+    <template id="website_blog_app_snippets" inherit_id="website.snippets" name="App Blog Snippets">
+        <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+            <t t-snippet="website_blog_app.vertel_app_footer" t-thumbnail="/website_blog_app/static/img/Vertel_Vit.svg"/>
+        </xpath>
     </template>
 </odoo>

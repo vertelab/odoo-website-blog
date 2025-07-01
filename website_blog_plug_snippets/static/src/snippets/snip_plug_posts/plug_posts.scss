@@ -1,3 +1,8 @@
+@mixin size($size) {
+    width: $size;
+    height: $size;
+}
+
 .snip_blog_post:not([data-vcss]), .snip_blog_post_big_picture:not([data-vcss]) {
     .snip_blog_post_loader {
         @include o-position-absolute(0, 0, 0, 0);
@@ -5,7 +10,9 @@
 
         > div {
             animation: o-wblog-loader 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-            max: {width: 30px; height: 30px;}
+//             max: {width: 30px; height: 30px;}
+            max-width: 30px;
+            max-height: 30px;
         }
     }
 
@@ -25,7 +32,8 @@
     // (handle parents with, for example, '.small' or '.h1' classes)
     .snip_blog_post_cover {
         @include size(3.5em);
-        max: {width: 85px; height: 85px}
+        max-width: 85px;
+        max-height: 85px;
     }
 
     .snip_blog_post_title  {
@@ -51,7 +59,8 @@
         }
 
         .snip_blog_post_title  {
-            @include font-size($h3-font-size);
+//             @include font-size($h3-font-size);
+            font-size: $h3-font-size;
             margin-bottom: 0.5em;
             word-spacing: -0.15em;
         }
@@ -66,7 +75,7 @@
             &::before {
                 content: "";
                 @include o-position-absolute(0, $grid-gutter-width/2, 0, $grid-gutter-width/2);
-                background: linear-gradient(to bottom, darken(theme-color('secondary'), 10%) 0%,darken(theme-color('secondary'), 30%) 100%);
+                background: linear-gradient(to bottom, #5a6c7d 0%, #3d4a56 100%);
             }
             .thumb {
                 transition: opacity 0.35s;
@@ -86,7 +95,8 @@
             p {
                 @include o-position-absolute(auto, 60px, 60px, 60px);
                 opacity: 0;
-                transition: e(  "opacity 0.35s linear 0s, transform 0.35s linear 0s");
+//                 transition: e(  "opacity 0.35s linear 0s, transform 0.35s linear 0s");
+                transition: opacity 0.35s linear 0s, transform 0.35s linear 0s;
                 -webkit-transform: translate3d(0,-100px,0);
                 transform: translate3d(0,-100px,0);
             }

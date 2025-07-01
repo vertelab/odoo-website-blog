@@ -1,11 +1,10 @@
-odoo.define('website_blog_plug_snippets.snip_plug_posts_frontend', function (require) {
-'use strict';
+/** @odoo-module **/
 
-var core = require('web.core');
-var wUtils = require('website.utils');
-var publicWidget = require('web.public.widget');
+import options from "@web_editor/js/editor/snippets.options";
+import weUtils from "@web_editor/js/common/utils";
+import publicWidget from '@web/legacy/js/public/public_widget';
+import { _t } from "@web/core/l10n/translation";
 
-var _t = core._t;
 
 publicWidget.registry.js_get_plug_posts = publicWidget.Widget.extend({
     selector: '.js_get_plug_posts',
@@ -132,4 +131,4 @@ publicWidget.registry.js_get_plug_posts = publicWidget.Widget.extend({
         });
     },
 });
-});
+

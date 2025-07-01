@@ -1,10 +1,10 @@
-odoo.define('website_blog_plug_snippets.snip_plug_posts_editor', function (require) {
-'use strict';
+/** @odoo-module **/
 
-var sOptions = require('web_editor.snippets.options');
-var wUtils = require('website.utils');
+import options from "@web_editor/js/editor/snippets.options";
+import weUtils from "@web_editor/js/common/utils";
 
-sOptions.registry.js_get_plug_posts = sOptions.Class.extend({
+
+options.registry.js_get_plug_posts = options.Class.extend({
 
     //--------------------------------------------------------------------------
     // Private
@@ -28,5 +28,4 @@ sOptions.registry.js_get_plug_posts = sOptions.Class.extend({
             }
         });
     },
-});
 });

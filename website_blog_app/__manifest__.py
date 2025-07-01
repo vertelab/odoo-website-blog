@@ -21,7 +21,7 @@
 
 {
     'name': 'Website Blog: Website Blog App',
-    'version': '14.0.0.0.1',
+    'version': '18.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Website Blog App',
     'category': 'Website',
@@ -38,16 +38,22 @@
     'repository': 'https://github.com/vertelab/odoo-website-blog',
     'depends': ['website_blog'],
     'data': [
-	'security/ir.model.access.csv',
+	    'security/ir.model.access.csv',
         'views/snippets/snippets.xml',
         'views/website_blog_view.xml',
         'views/website_blog_templates.xml',
         'views/app_templates.xml',
-        'views/assets.xml',
+        # 'views/assets.xml',
         'data/ir_config_parameter.xml',
         'data/server_action.xml',
         'data/data.xml',
     ],
+    'assets': {
+        'web.assets_frontend': [
+            'website_blog_app/static/scss/snippet_styles.scss',
+            'website_blog_app/static/css/tooltip_style.css'
+        ]
+    },
     'installable': True,
     'application': True,
 }
