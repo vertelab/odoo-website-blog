@@ -23,11 +23,20 @@
     'name': 'Website Blog: Website Blog App',
     'version': '18.0.0.0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Website Blog App',
+    'summary': 'Website Blog App.',
     'category': 'Website',
-    'description': """
-    Website Blog App
-    """,
+    'description': '''
+Website Blog App
+================
+
+    Website Blog App.
+
+    Features:
+
+        - Web integration: Exposes HTTP endpoints for external systems.
+        - UI Integration: Extends 4 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on blog.blog, blog.post.
+    ''',
     #'sequence': '200',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-website-blog/website_blog_app',
