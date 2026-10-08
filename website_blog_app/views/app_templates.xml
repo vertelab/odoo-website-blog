@@ -65,7 +65,7 @@
                                                 <a t-attf-href="/apps/{{blog_post.blog_id.app_project}}/{{blog_post.app_module}}" class="d-block text-reset text-decoration-none o_blog_post_title my-0 h5 css-tooltip" data-tooltip="Projekt: odoo-base">
                                                     <t t-esc="blog_post.name"/>
                                                 </a>                                                
-                                                <!--p class="card-text" style="margin-top: 10px;">Vertel AB</p-->
+                                                <!--p class="card-text" style="margin-top: 10px;">Vertel Sverige AB</p-->
                                             </div>
                                         </div>
                                     </div>

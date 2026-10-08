@@ -134,7 +134,7 @@ class BlogPost(models.Model):
             'category': self.app_category.name,
             'website': 'https://vertel.se/apps/project/module',
             'summary': self.app_summary,
-            'author': 'Vertel AB',
+            'author': 'Vertel Sverige AB',
             'version': '14.0.0.0.1',
             'license': self.app_license,
             'description': self.app_description,
